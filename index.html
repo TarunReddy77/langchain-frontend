@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LangChain Frontend</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+        input, button {
+            margin-top: 10px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>LangChain Translator</h1>
+        <form id="inputForm">
+            <label for="language">Language:</label>
+            <input type="text" id="language" name="language" required>
+            <label for="text">Text:</label>
+            <input type="text" id="text" name="text" required>
+            <button type="submit">Submit</button>
+        </form>
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        document.getElementById('inputForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const language = document.getElementById('language').value;
+            const text = document.getElementById('text').value;
+
+            const response = await fetch('https://e24e-34-23-90-16.ngrok-free.app/chain', { 
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ language: language, text: text }),
+            });
+
+            const result = await response.json();
+            document.getElementById('result').innerText = `Translated Text: ${result}`;
+        });
+    </script>
+</body>
+</html>
